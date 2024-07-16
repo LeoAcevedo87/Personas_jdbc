@@ -4,13 +4,17 @@ package modelo;
 public class Persona {
     private int id;
     private String nombre;
+    private String apellido;
     private int edad;
+    private int dni;
 
     public Persona() {}
 
-    public Persona(String nombre, int edad) {
+    public Persona(String nombre, String apellido, int edad, int dni) {
         this.nombre = nombre;
+        this.apellido = apellido;
         this.edad = edad;
+        this.dni = dni;
     }
 
     public int getId() {
@@ -29,6 +33,14 @@ public class Persona {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public int getEdad() {
         return edad;
     }
@@ -37,8 +49,16 @@ public class Persona {
         this.edad = edad;
     }
 
+    public int getDni() {
+        return dni;
+    }
+
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+
     @Override
     public String toString() {
-        return "Persona [id=" + id + ", nombre=" + nombre + ", edad=" + edad + "]";
+        return "Id: " + id + "   Nombre: " + nombre + "   Apellido: " + apellido + "   Edad: " + edad + "   Dni: " + dni;
     }
 }

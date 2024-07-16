@@ -11,11 +11,13 @@ import java.util.List;
 
 public class PersonaDAO {
     public void agregarPersona(Persona persona) throws SQLException {
-        String consulta = "INSERT INTO personas (nombre, edad) VALUES (?, ?)";
+        String consulta = "INSERT INTO personas (nombre, apellido, edad, dni) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
              PreparedStatement pstmt = conn.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, persona.getNombre());
-            pstmt.setInt(2, persona.getEdad());
+            pstmt.setString(2, persona.getApellido());
+            pstmt.setInt(3, persona.getEdad());
+            pstmt.setInt(4, persona.getDni());
             pstmt.executeUpdate();
 
             // Obtener el ID generado automáticamente
@@ -28,12 +30,14 @@ public class PersonaDAO {
     }
 
     public void actualizarPersona(Persona persona) throws SQLException {
-        String consulta = "UPDATE personas SET nombre = ?, edad = ? WHERE id = ?";
+        String consulta = "UPDATE personas SET nombre = ?, apellido = ?, edad = ?, dni = ? WHERE id = ?";
         try (Connection conn = ConexionBaseDatos.obtenerConexion();
              PreparedStatement pstmt = conn.prepareStatement(consulta)) {
             pstmt.setString(1, persona.getNombre());
-            pstmt.setInt(2, persona.getEdad());
-            pstmt.setInt(3, persona.getId());
+            pstmt.setString(2, persona.getApellido());
+            pstmt.setInt(3, persona.getEdad());
+            pstmt.setInt(4, persona.getDni());
+            pstmt.setInt(5, persona.getId());
             pstmt.executeUpdate();
         }
     }
@@ -57,11 +61,14 @@ public class PersonaDAO {
                 Persona persona = new Persona();
                 persona.setId(rs.getInt("id"));
                 persona.setNombre(rs.getString("nombre"));
+                persona.setApellido(rs.getString("apellido"));
                 persona.setEdad(rs.getInt("edad"));
+                persona.setDni(rs.getInt("dni"));
                 personas.add(persona);
             }
         }
         return personas;
     }
 }
+
 
