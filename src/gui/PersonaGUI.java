@@ -192,8 +192,8 @@ public class PersonaGUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        new PersonaGUI();
-    }
+//    public static void main(String[] args) {
+//        new PersonaGUI();
+//    }
 }
 
