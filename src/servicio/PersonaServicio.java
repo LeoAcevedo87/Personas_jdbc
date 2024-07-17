@@ -14,9 +14,14 @@ public class PersonaServicio {
     public void agregarPersona(Persona persona) throws SQLException {
         personaDAO.agregarPersona(persona);
     }
+    
+    public Persona obtenerPersona(int id){
+        return personaDAO.obtenerPersona(id);
+    }
 
-    public void actualizarPersona(Persona persona) throws SQLException {
-        personaDAO.actualizarPersona(persona);
+    public void editarPersona(int id) throws SQLException {
+        
+        personaDAO.editarPersona(id);
     }
 
     public void eliminarPersona(int id) throws SQLException {

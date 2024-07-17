@@ -99,12 +99,12 @@ public class PersonaGUI extends JFrame {
             }
         });
 
-        ((JButton) panelEntrada.getComponent(11)).addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                actualizarPersona();
-            }
-        });
+//        ((JButton) panelEntrada.getComponent(11)).addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                actualizarPersona();
+//            }
+//        });
 
         ((JButton) panelEntrada.getComponent(12)).addActionListener(new ActionListener() {
             @Override
@@ -151,22 +151,22 @@ public class PersonaGUI extends JFrame {
         }
     }
 
-    private void actualizarPersona() {
-        int id = Integer.parseInt(campoId.getText());
-        String nombre = campoNombre.getText();
-        String apellido = campoApellido.getText();
-        int edad = Integer.parseInt(campoEdad.getText());
-        int dni = Integer.parseInt(campoDni.getText());
-        Persona persona = new Persona(nombre, apellido, edad, dni);
-        persona.setId(id);
-        try {
-            personaServicio.actualizarPersona(persona);
-            areaDisplay.setText("¡Persona actualizada exitosamente!");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            areaDisplay.setText("Error al actualizar persona.");
-        }
-    }
+//    private void actualizarPersona() {
+//        int id = Integer.parseInt(campoId.getText());
+//        String nombre = campoNombre.getText();
+//        String apellido = campoApellido.getText();
+//        int edad = Integer.parseInt(campoEdad.getText());
+//        int dni = Integer.parseInt(campoDni.getText());
+//        Persona persona = new Persona(nombre, apellido, edad, dni);
+//        persona.setId(id);
+//        try {
+//            personaServicio.actualizarPersona(persona);
+//            areaDisplay.setText("¡Persona actualizada exitosamente!");
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            areaDisplay.setText("Error al actualizar persona.");
+//        }
+//    }
 
     private void eliminarPersona() {
         int id = Integer.parseInt(campoId.getText());
