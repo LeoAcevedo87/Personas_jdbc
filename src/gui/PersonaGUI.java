@@ -188,7 +188,7 @@ public class PersonaGUI extends JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            areaDisplay.setText("Error al recuperar personas.");
+            areaDisplay.setText("Error al recuperar lista de personas.");
         }
     }
 

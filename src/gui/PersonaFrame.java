@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import modelo.Persona;
@@ -88,6 +90,11 @@ public class PersonaFrame extends javax.swing.JFrame {
 
         btnEliminar.setText("Eliminar");
         btnEliminar.setBorder(null);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         tabla.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -284,15 +291,15 @@ public class PersonaFrame extends javax.swing.JFrame {
         }
 
         Persona persona = new Persona(nombre, apellido, edad, dni);
-        PersonaServicio persoServ = new PersonaServicio();
 
         try {
-            persoServ.agregarPersona(persona);
+            personaServicio.agregarPersona(persona);
             mostrarTextoTemporal("¡Persona agregada exitosamente!");
             txtDNI.setText("");
             txtApellido.setText("");
             txtNombre.setText("");
             txtEdad.setText("");
+            mostrarMensaje("Persona agregada correctamente", "Info", "Guardado exitoso");
             cargarTabla();
 
         } catch (SQLException ex) {
@@ -303,8 +310,7 @@ public class PersonaFrame extends javax.swing.JFrame {
 
             }
         }
-        
-        
+
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -316,9 +322,31 @@ public class PersonaFrame extends javax.swing.JFrame {
         cargarTabla();
     }//GEN-LAST:event_formWindowOpened
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        //Verificar si tabla no esta vacia
+        if (tabla.getRowCount() > 0) {
+            //Validacion de seleccion de fila/registro
+            if (tabla.getSelectedRow() != -1) {
+                //Obtener id de persona seleccionada ( Casteo de Objeto a String y de String a Entero)
+                int idPersona = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
+
+                try {
+                    personaServicio.eliminarPersona(idPersona);
+                    mostrarMensaje("Persona eliminada correctamente", "Info", "Eliminación exitosa");
+                    cargarTabla();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PersonaFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                mostrarMensaje("No selecciono registro de la tabla", "Error", "Error al eliminar");
+            }
+
+        } else {
+            mostrarMensaje("La tabla está vacía", "Error", "Error al eliminar");
+        }
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -391,20 +419,31 @@ public class PersonaFrame extends javax.swing.JFrame {
             listaPersonas = personaServicio.obtenerTodasLasPersonas();
             //Setear datos de la base en la tabla
             if (listaPersonas != null) {
-                for(Persona perso: listaPersonas){
-                   Object[] objecto = {perso.getId(), perso.getDni(), perso.getApellido(), perso.getDni(), perso.getEdad()};
-                   
-                   //Agregamos los datos en la fila
-                   modeloTabla.addRow(objecto);
+                for (Persona perso : listaPersonas) {
+                    Object[] objecto = {perso.getId(), perso.getDni(), perso.getApellido(), perso.getDni(), perso.getEdad()};
+
+                    //Agregamos los datos en la fila
+                    modeloTabla.addRow(objecto);
                 }
             }
             tabla.setModel(modeloTabla);
-            
-            
+
         } catch (SQLException ex) {
-            Logger.getLogger(PersonaFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PersonaFrame.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
+    }
+
+    public void mostrarMensaje(String mensaje, String tipo, String titulo) {
+        JOptionPane optionPane = new JOptionPane(mensaje);
+        if (tipo.equals("Info")) {
+            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        } else if (tipo.equals("Error")) {
+            optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+        }
+        JDialog dialog = optionPane.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
     }
 }

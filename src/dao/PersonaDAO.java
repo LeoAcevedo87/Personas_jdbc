@@ -67,6 +67,7 @@ public class PersonaDAO {
                 personas.add(persona);
             }
         }
+        
         return personas;
     }
 }
